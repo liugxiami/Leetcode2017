@@ -7,9 +7,10 @@ import java.util.*;
  */
 public class LC051NQueens {
     public static void main(String[] args) {
-        List<List<String>> res=solveNQueens(4);
+        List<List<String>> res=solveNQueens(8);
         for (int i = 0; i < res.size(); i++) {
             res.get(i).forEach(x-> System.out.print(x+" "));
+            System.out.println(i);
             System.out.println();
         }
     }
