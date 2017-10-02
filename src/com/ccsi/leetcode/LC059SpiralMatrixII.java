@@ -5,7 +5,7 @@ package com.ccsi.leetcode;
  */
 public class LC059SpiralMatrixII {
     public static void main(String[] args) {
-        int n=1;
+        int n=0;
         int[][] res=generateMatrix(n);
         for (int row = 0; row < res.length; row++) {
             for (int col = 0; col < res[0].length; col++) {
@@ -15,7 +15,7 @@ public class LC059SpiralMatrixII {
         }
     }
     public static int[][] generateMatrix(int n){
-        if(n<=0)return null;
+        if(n<=0)return new int[0][0];
         int[][] matrix=new int[n][n];
         int left=0,right=n-1,top=0,bottom=n-1;
         int count=1;
