@@ -37,13 +37,19 @@ public class LC101SymmetricTree {
             TreeNode leftNode=leftQ.poll();
             TreeNode rightNode=rightQ.poll();
 
-            if(leftNode==null||rightNode==null)return false;
             if(leftNode.val!=rightNode.val)return false;
 
-            leftQ.offer(leftNode.left);
-            rightQ.offer(rightNode.right);
-            leftQ.offer(leftNode.right);
-            rightQ.offer(rightNode.left);
+            if(leftNode.left!=null&&rightNode.right==null||leftNode.right!=null&&rightNode.left==null)return false;
+            if(leftNode.left==null&&rightNode.right!=null||leftNode.right==null&&rightNode.left!=null)return false;
+
+            if(leftNode.left!=null&&rightNode.right!=null){
+                leftQ.offer(leftNode.left);
+                rightQ.offer(rightNode.right);
+            }
+            if(leftNode.right!=null&&rightNode.left!=null){
+                leftQ.offer(leftNode.right);
+                rightQ.offer(rightNode.left);
+            }
         }
 
         return true;
