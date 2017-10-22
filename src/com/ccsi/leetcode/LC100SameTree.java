@@ -1,6 +1,7 @@
 package com.ccsi.leetcode;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by gxliu on 2017/10/20.
@@ -19,22 +20,22 @@ public class LC100SameTree {
         if(p==null||q==null)return false;
         if(p.val!=q.val)return false;
 
-        Stack<TreeNode> pTree=new Stack<>();
-        Stack<TreeNode> qTree=new Stack<>();
-        pTree.push(p);
-        qTree.push(q);
+        Queue<TreeNode> pTree=new LinkedList<>();
+        Queue<TreeNode> qTree=new LinkedList<>();
+        pTree.offer(p);
+        qTree.offer(q);
         while(!pTree.isEmpty()&&!qTree.isEmpty()){
-            TreeNode pcurr=pTree.pop();
-            TreeNode qcurr=qTree.pop();
+            TreeNode pcurr=pTree.poll();
+            TreeNode qcurr=qTree.poll();
             if(pcurr.val!=qcurr.val)return false;
 
             if(pcurr.left!=null&&qcurr.left!=null){
-                pTree.push(pcurr.left);
-                qTree.push(qcurr.left);
+                pTree.offer(pcurr.left);
+                qTree.offer(qcurr.left);
             }
             if(pcurr.right!=null&&qcurr.right!=null){
-                pTree.push(pcurr.right);
-                qTree.push(qcurr.right);
+                pTree.offer(pcurr.right);
+                qTree.offer(qcurr.right);
             }
         }
 
@@ -42,4 +43,5 @@ public class LC100SameTree {
 
         return true;
     }
+
 }
