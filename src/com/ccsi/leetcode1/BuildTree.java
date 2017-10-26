@@ -35,6 +35,7 @@ public class BuildTree {
         root.right=new TreeNode(8);
         root.right.left=new TreeNode(13);
         root.right.right=new TreeNode(4);
+        root.right.right.left=new TreeNode(5);
         root.right.right.right=new TreeNode(1);
         return root;
 
