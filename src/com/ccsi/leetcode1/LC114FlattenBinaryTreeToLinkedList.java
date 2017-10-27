@@ -8,7 +8,7 @@ import java.util.*;
 public class LC114FlattenBinaryTreeToLinkedList {
     public static void main(String[] args) {
         TreeNode root=BuildTree.buildBST();
-        flatten2(root);
+        flatten3(root);
     }
     //method1 用一个stack来缓存碰到的右子树。
     public static void flatten(TreeNode root){
@@ -71,5 +71,28 @@ public class LC114FlattenBinaryTreeToLinkedList {
                 temp.right=stack.peek(); //否则右子树指向stack里面的元素，注意不能pop破坏结构。
             }
         }
+    }
+    //method4 divide and conquer
+    public static void flatten3(TreeNode root){
+        if(root==null||root.left==null&&root.right==null)return;
+        DFS(root);
+    }
+    private static TreeNode DFS(TreeNode root){
+        if(root==null)return null;
+
+        TreeNode leftLast=DFS(root.left);
+        TreeNode rightLast=DFS(root.right);
+
+        //connect leftLast.right to root.right
+        if(leftLast!=null){
+            leftLast.right=root.right;
+            root.right=root.left;
+            root.left=null;
+        }
+
+        if(rightLast!=null)return rightLast; //先right
+        if(leftLast!=null)return leftLast;    //后left 否则出错
+
+        return root;
     }
 }
