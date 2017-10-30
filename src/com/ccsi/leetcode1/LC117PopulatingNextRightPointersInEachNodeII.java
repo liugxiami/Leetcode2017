@@ -34,32 +34,31 @@ public class LC117PopulatingNextRightPointersInEachNodeII {
     }
     //method 2 DFS
     public static void connectDFS(TreeLinkNode root){
-        if(root==null||(root.left==null&&root.right==null))return;
-
-        TreeLinkNode temp=null; //用来记录当前节点下一层的后面一个节点，目的是为了让其next能接到root.next
-        //的下一层的节点
-        if(root.left!=null&&root.right!=null){
-            root.left.next=root.right;
-            temp=root.right;
-        }else{
-            temp=root.left==null?root.right:root.left;
-        }
-
+        if(root==null)return;
+        //先将后一个节点准备好
         TreeLinkNode next=root.next;
         while(next!=null){  //因为root的next的子树可能是空的，但其next.next的子树又存在，所以需要一个while
             //循环来将temp与next连起来。
             if(next.left!=null){
-                temp.next=next.left;
+                next=next.left;
                 break;
             }else if(next.right!=null){
-                temp.next=next.right;
+                next=next.right;
                 break;
-            }else{
-                next=next.next;
             }
+            next=next.next;
         }
 
-        connectDFS(root.left);
+        if(root.right!=null){
+            root.right.next=next;
+            if(root.left!=null){
+                root.left.next=root.right;
+            }
+        }else if(root.left!=null){
+            root.left.next=next;
+        }
+
         connectDFS(root.right);
+        connectDFS(root.left);
     }
 }
