@@ -6,7 +6,7 @@ import java.util.*;
  * Created by gxliu on 2017/11/7.
  */
 public class LC130SurroundedRegions {
-    //method1 union-find
+
     public static void main(String[] args) {
         char[][] board={
                 {'x','x','x','x'},
@@ -14,6 +14,11 @@ public class LC130SurroundedRegions {
                 {'x','x','o','x'},
                 {'x','o','x','x'}
         };
+//        char[][] board={
+//                {'o','o','o'},
+//                {'o','o','o'},
+//                {'o','o','o'},
+//        };
         solve(board);
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
@@ -22,14 +27,17 @@ public class LC130SurroundedRegions {
             System.out.println();
         }
     }
+    //method1 union-find
     private static class Element{
         int value;
         int parent;
+        int rank;
         boolean canFlip;
 
         public Element(int value, int parent) {
             this.value = value;
             this.parent = parent;
+            this.rank=1;
             this.canFlip = true;
         }
     }
@@ -40,6 +48,9 @@ public class LC130SurroundedRegions {
         makeSet(board);
         int rowNum=board.length;
         int colNum=board[0].length;
+
+        if(rowNum<3||colNum<3)return;
+
         for (int row = 0; row < rowNum; row++) {
             for (int col = 0; col < colNum; col++) {
                 if(row+1<rowNum&&board[row][col]=='o'&&board[row+1][col]=='o'){
@@ -50,33 +61,18 @@ public class LC130SurroundedRegions {
                 }
             }
         }
-        Map<Integer,List<Integer>> map=getSet();
-        for(Integer num:map.keySet()){
-            Element curr=elements.get(num);
+
+        for(Integer num:elements.keySet()){
+            int parent=find(num);
+            Element curr=elements.get(parent);
             if(curr.canFlip){
-                List<Integer> list=map.get(num);
-                for(Integer temp:list){
-                    int row=temp/colNum;
-                    int col=temp%colNum;
-                    board[row][col]='x';
-                }
+                int row=num/colNum;
+                int col=num%colNum;
+                board[row][col]='X';
             }
         }
     }
-    private static Map<Integer,List<Integer>> getSet(){
-        Map<Integer,List<Integer>> res=new HashMap<>();
-        for(Integer value:elements.keySet()){
-            int parent_name=find(value);
-            if(res.containsKey(parent_name)){
-                res.get(parent_name).add(value);
-            }else{
-                List<Integer> list=new ArrayList<>();
-                list.add(value);
-                res.put(parent_name,list);
-            }
-        }
-        return res;
-    }
+
     private static void makeSet(char[][] board){
         int rowNum=board.length;
         int colNum=board[0].length;
@@ -94,23 +90,75 @@ public class LC130SurroundedRegions {
     private static void union(int num1,int num2){
         int parent1_name=find(num1);
         int parent2_name=find(num2);
+
         if(parent1_name==parent2_name)return;
+
         Element parent1=elements.get(parent1_name);
         Element parent2=elements.get(parent2_name);
-        parent1.parent=parent2_name;
-        if(!parent1.canFlip)parent2.canFlip=false;
-        if(!parent2.canFlip)parent1.canFlip=false;
+        if(parent1.rank<parent2.rank){
+            parent1.parent=parent2_name;
+        }else if(parent1.rank>parent2.rank){
+            parent2.parent=parent1_name;
+        }else{
+            parent1.parent=parent2_name;
+            parent2.rank++;
+        }
+
+        parent1.canFlip&=parent2.canFlip;
+        parent2.canFlip&=parent1.canFlip;
     }
 
     private static int find(int num){
         Element curr=elements.get(num);
+        Element ele=curr;
         while(true){
             int parent_name=curr.parent;
-            Element parent=elements.get(parent_name);
-            if(!curr.canFlip)parent.canFlip=false;
 
-            if(parent_name==curr.value)return parent_name;
+            if(parent_name==curr.value){
+                ele.parent=parent_name;
+                return parent_name;
+            }
             curr=elements.get(parent_name);
+        }
+    }
+    //method2,先看边，如果靠边的是'O',那么BFS，将与其相邻的'O'都变成‘Y’.
+    //在从到到位走一遍，这时的所有的‘O’都不会有与靠边的相邻了，这是的‘O’都变成‘X’,并将前面的‘Y’变回‘O’就行了。
+    public static void solve1(char[][] board){
+        if(board==null||board.length==0||board[0].length==0)return;
+        int rowNum=board.length;
+        int colNum=board[0].length;
+        for (int row = 0; row < rowNum; row++) {
+            if(board[row][0]=='o')BFS(board,row,0);
+            if(board[row][colNum-1]=='o')BFS(board,row,colNum-1);
+        }
+        for (int col = 0; col < colNum; col++) {
+            if(board[0][col]=='o')BFS(board,0,col);
+            if(board[rowNum-1][col]=='o')BFS(board,rowNum-1,col);
+        }
+
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
+                if(board[row][col]=='o')board[row][col]='x';
+                if(board[row][col]=='y')board[row][col]='o';
+            }
+        }
+
+    }
+    private static void BFS(char[][] board,int row,int col){
+        board[row][col]='y';
+        int rowNum=board.length;
+        int colNum=board[0].length;
+        int temp=row*colNum+col;
+        Queue<Integer> queue=new LinkedList<>();
+        queue.offer(temp);
+        while(!queue.isEmpty()){
+            Integer curr=queue.poll();
+            int r=curr/colNum;
+            int c=curr%colNum;
+            if(r+1<rowNum&&board[r+1][c]=='o')queue.offer((r+1)*colNum+c);
+            if(r-1>=0&&board[r-1][c]=='o')queue.offer((r-1)*colNum+c);
+            if(c+1<colNum&&board[r][c+1]=='o')queue.offer(r*colNum+c+1);
+            if(c-1>=0&&board[r][c-1]=='o')queue.offer(r*colNum+c-1);
         }
     }
 }
