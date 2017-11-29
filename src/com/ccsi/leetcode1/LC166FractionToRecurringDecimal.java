@@ -7,16 +7,18 @@ import java.util.*;
  */
 public class LC166FractionToRecurringDecimal {
     public static void main(String[] args) {
-        System.out.println(fractionToDecimal(1,3));
+        System.out.println(fractionToDecimal(1,-2147483648));
     }
     public static String fractionToDecimal(int numerator,int denominator){
         if(numerator==0)return "0"; //分子为0，则结果为0
         if(denominator==0)return ""; //分母为0，则没法除，结果就是空的
 
         StringBuilder result=new StringBuilder();  //用一个sb来保存结果
-        if(numerator<0||denominator<0)result.append('-'); //先检查正负数
-        long num=Math.abs(numerator);  //将分子分母变成正数再计算，但要注意Integer.MIN_VALUE的绝对值用int存储不下
-        long den=Math.abs(denominator); //暂时换成long型来做。
+        if(numerator<0&&denominator<0)result.append("");
+        else if(numerator<0||denominator<0)result.append('-'); //先检查正负数
+
+        long num=Math.abs((long)numerator);  //将分子分母变成正数再计算，但要注意Integer.MIN_VALUE的绝对值用int存储不下
+        long den=Math.abs((long)denominator); //暂时换成long型来做。
 
         result.append(num/den);  //整数部分。
         long rem=num%den;
