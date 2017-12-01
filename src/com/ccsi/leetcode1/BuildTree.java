@@ -22,7 +22,7 @@ public class BuildTree {
         root.left.left=new TreeNode(1);
         root.left.right=new TreeNode(3);
         root.right.left=new TreeNode(5);
-        root.right.right=new TreeNode(6);
+        root.right.right=new TreeNode(7);
         return root;
     }
     public static TreeNode buildTreeForPathSum(){
