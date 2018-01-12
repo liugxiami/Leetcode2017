@@ -34,7 +34,8 @@ public class LC301RemoveInvalidParentheses {
                                  int left,int right,int open){
         if(left<0||right<0||open<0)return;
         //因为题目要求remove minimum invalid parenteses，所以left和right不能小于0，open是指配对情况，
-        //配对的话为0，否则不为0，小于0说明还有左括号未配对，大于0说明还有右括号未配对。
+        //配对的话为0，否则不为0，大于0说明还有左括号未配对，小于0说明还有右括号未配对（这种情况不允许出现，一旦
+        // 出现说明前面有先有右括号）。
         if(index==s.length()){
             if(open==0)result.add(sb.toString());
             return; //无论是否配对完，都需要return，所以这里的内if不能和外if合并。
