@@ -12,8 +12,6 @@ public class LC301RemoveInvalidParentheses {
         res.forEach(x-> System.out.println(x));
     }
     public static List<String> removeInvalidParentheses(String s){
-        List<String> result=new ArrayList<>();
-        if(s==null||s.length()==0)return result;
         int len=s.length();
         int left=0; //可以被删除的左括号数目
         int right=0;//可以被删除的右括号数目
@@ -27,8 +25,7 @@ public class LC301RemoveInvalidParentheses {
         }
         Set<String> set=new HashSet<>();
         helperDFS(set,s,0,new StringBuilder(),left,right,0);
-        result.addAll(set);
-        return result;
+        return new ArrayList<String>(set);
     }
     public static void helperDFS(Set<String> result,String s,int index,StringBuilder sb,
                                  int left,int right,int open){
