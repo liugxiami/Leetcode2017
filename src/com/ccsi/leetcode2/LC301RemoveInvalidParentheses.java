@@ -51,5 +51,5 @@ public class LC301RemoveInvalidParentheses {
             helperDFS(result,s,index+1,sb.append(c),left,right,open);
         }
         sb.deleteCharAt(sb.length()-1); //BT,remove last char of sb.
-    }
+}
 }
