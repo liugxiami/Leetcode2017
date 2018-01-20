@@ -50,8 +50,10 @@ public class LC307RangeSumQueryMutable {
     //那么update时也用递归来做，不容易出错
     public void update(int i,int val){
         if(i<0||i>=numbers.length||numbers[i]==val)return;
+
         int delta=val-numbers[i];
         insert(i,delta,root);
+        numbers[i]=val;
     }
     private void insert(int i, int delta, Node curr){
         if(curr.from==curr.to){
@@ -71,17 +73,25 @@ public class LC307RangeSumQueryMutable {
     private int getSum(int i,int j,Node curr){
         if(i==curr.from&&j==curr.to)return curr.sum;
 
-        int mid=(curr.to-curr.from)/2+curr.to;
-        if(i<mid&&j<mid)return getSum(i,j,curr.left);
-        else if(i>mid&&j>mid)return getSum(i,j,curr.right);
+        int mid=(curr.to-curr.from)/2+curr.from;
+        if(j<=mid)return getSum(i,j,curr.left);
+        else if(i>=mid+1)return getSum(i,j,curr.right);
         else return getSum(i,mid,curr.left)+getSum(mid+1,j,curr.right);
     }
 
     public static void main(String[] args) {
-        int[] nums={1,3,5};
+        int[] nums={7,2,7,2,0};
         LC307RangeSumQueryMutable sum=new LC307RangeSumQueryMutable(nums);
-        System.out.println(sum.sumRange(0,2));
-        sum.update(1,10);
-        System.out.println(sum.sumRange(0,2));
+        sum.update(4,6);
+        sum.update(0,2);
+        sum.update(0,9);
+        System.out.println(sum.sumRange(4,4));
+        sum.update(3,8);
+        System.out.println(sum.sumRange(0,4));
+        sum.update(4,1);
+        System.out.println(sum.sumRange(0,3));
+        System.out.println(sum.sumRange(0,4));
+        sum.update(0,4);
+
     }
 }
