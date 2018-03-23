@@ -11,11 +11,13 @@ public class LC354RussianDollEnvelopes {
         System.out.println(maxEnvelopes1(envelopes));
     }
     //这是一开始的解法，想法过于简单了，这种贪心的算法是不对的。
+
     public static int maxEnvelopes(int[][] envelopes){
         if(envelopes==null||envelopes.length==0||envelopes[0].length==0)return 0;
         PriorityQueue<int[]> pq=new PriorityQueue<int[]>((a,b)->{
             if(a[0]==b[0])return a[1]-b[1];
             else return a[0]-b[0];});
+
 
         int len=envelopes.length;
         for (int i = 0; i < len; i++) {
