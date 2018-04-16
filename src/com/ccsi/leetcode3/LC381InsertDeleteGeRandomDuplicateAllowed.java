@@ -37,6 +37,9 @@ public class LC381InsertDeleteGeRandomDuplicateAllowed {
 
         if(goingToBeDelete!=list.size()-1){
             int last=list.get(list.size()-1);
+            List<Integer> in=map.get(last);
+            in.set(in.size()-1,goingToBeDelete);
+            Collections.sort(in);
             list.set(goingToBeDelete,last);
         }
 
@@ -52,16 +55,17 @@ public class LC381InsertDeleteGeRandomDuplicateAllowed {
     }
     public static void main(String[] args) {
         LC381InsertDeleteGeRandomDuplicateAllowed randomSet=new LC381InsertDeleteGeRandomDuplicateAllowed();
+        randomSet.insert(9);
+        randomSet.insert(9);
         randomSet.insert(1);
         randomSet.insert(1);
-        randomSet.insert(3);
-        randomSet.insert(4);
-        System.out.println(randomSet.remove(2));
         randomSet.insert(2);
-        System.out.println(randomSet.getRandom());
+        randomSet.insert(1);
+        randomSet.remove(2);
         randomSet.remove(1);
-        System.out.println(randomSet.insert(2));
-        System.out.println(randomSet.getRandom());
+        randomSet.remove(1);
+        randomSet.insert(9);
+        randomSet.remove(1);
 
     }
 }
