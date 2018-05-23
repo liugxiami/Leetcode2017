@@ -6,7 +6,7 @@ package com.ccsi.leetcode4;
 public class LC413ArithmeticSlices {
     public static void main(String[] args) {
         int[] A={1,2,3,4,6,7,8,9};
-        System.out.println(numberOfArithmeticsSlices2(A));
+        System.out.println(numberOfArithmeticsSlices3(A));
     }
     public static int numberOfArithmeticsSlices(int[] A){
         if(A.length<3)return 0;
@@ -49,6 +49,19 @@ public class LC413ArithmeticSlices {
             }
         }
         if(len>2)result+=helper(len);
+        return result;
+    }
+    //method3 DP
+    public static int numberOfArithmeticsSlices3(int[] A){
+        if(A==null||A.length<3)return 0;
+        int[] dp=new int[A.length];
+        int result=0;
+        for (int i = 2; i < A.length; i++) {
+            if(A[i]-A[i-1]==A[i-1]-A[i-2]){
+                dp[i]=dp[i-1]+1;
+            }
+            result+=dp[i];
+        }
         return result;
     }
 }
