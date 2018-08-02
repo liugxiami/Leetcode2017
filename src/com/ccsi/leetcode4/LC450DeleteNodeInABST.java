@@ -43,7 +43,6 @@ public class LC450DeleteNodeInABST {
     private static TreeNode findMin(TreeNode root){
         while(root.left!=null)root=root.left;
         return root;
-
     }
 
 }
