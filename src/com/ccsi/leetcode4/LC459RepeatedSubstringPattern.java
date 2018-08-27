@@ -1,4 +1,4 @@
-package com.ccsi;
+package com.ccsi.leetcode4;
 
 public class LC459RepeatedSubstringPattern {
     public static void main(String[] args) {
