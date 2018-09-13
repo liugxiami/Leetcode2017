@@ -51,8 +51,8 @@ public class LC466CountTheRepetitions {
             for (int k = 0; k < i; k++) {
                 if(indexr[k]==index){
                     int pre_count=countr[k];
-                    int pattern_count=(countr[i]-countr[k])*((n1-1-k)/(i-k));
-                    int remain_count=countr[k+(n1-1-k)%(i-k)]-countr[k];
+                    int pattern_count=(countr[i]-countr[k])*((n1-1-k)/(i-k));//注意这边的括号，先算后面的。
+                    int remain_count=countr[k+(n1-1-k)%(i-k)]-countr[k]; //还没理解为什么这么算
                     return (pre_count+pattern_count+remain_count)/n2;
                 }
             }
