@@ -15,8 +15,8 @@ public class LC480SlidingWindowMedian {
         if (nums == null || nums.length < k) return null;
         int len = nums.length;
         double[] results = new double[len - k + 1];
-        //PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Collections.reverseOrder()); //first half
-        PriorityQueue<Integer> maxQueue=new PriorityQueue<>((a,b)->b-a);
+        PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Collections.reverseOrder()); //first half
+        //PriorityQueue<Integer> maxQueue=new PriorityQueue<>((a,b)->b-a); //结果不对
         PriorityQueue<Integer> minQueue = new PriorityQueue<>(); //second half
         for (int i = 0; i < len; i++) {
             maxQueue.offer(nums[i]);
