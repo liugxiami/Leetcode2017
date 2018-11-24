@@ -26,7 +26,7 @@ public class LC518CoinChangeII {
     }
     //method2 DP
     public static int change1(int amount,int[] coins){
-        int[][] dp=new int[coins.length+1][amount+1];
+        int[][] dp=new int[coins.length+1][amount+1];//dp[i][j]表示用前i个硬币组成钱数为j的不同组合方法
         dp[0][0]=1;
         for (int i = 1; i <= coins.length; i++) {
             dp[i][0]=1;
