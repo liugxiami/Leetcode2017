@@ -5,9 +5,9 @@ import java.util.*;
 public class LC547FriendCircles {
     public static void main(String[] args) {
         int[][] M={{1,0,0,1},{0,1,1,0},{0,1,1,1},{1,0,1,1}};
-        System.out.println(findCircleNum1(M));
+        System.out.println(findCircleNum(M));
     }
-    //Method1 loop+BFS
+    //Method1 loop+BFS，这个方法不行,TLE。int[][] M={{1,0,0,1},{0,1,1,0},{0,1,1,1},{1,0,1,1}}就不行了
     public static int findCircleNum(int[][] M){
         if(M==null||M.length==0||M[0]==null||M[0].length==0)return 0;
         int rowNum=M.length;
@@ -24,7 +24,6 @@ public class LC547FriendCircles {
         return count;
     }
     private static void BFS(int[][] M,int row,int col){
-        int[][] dirs={{-1,0},{1,0},{0,-1},{0,1}};
         Queue<int[]> queue=new LinkedList<>();
         queue.offer(new int[]{row,col});
         while(!queue.isEmpty()){
@@ -32,12 +31,10 @@ public class LC547FriendCircles {
             int r=curr[0];
             int c=curr[1];
             M[r][c]=2;
-            for (int i = 0; i < dirs.length; i++) {
-                int x=r+dirs[i][0];
-                int y=c+dirs[i][1];
-                if(x>=0&&x<M.length&&y>=0&&y<M[0].length&&M[x][y]==1){
-                    queue.offer(new int[]{x,y});
-                }
+            M[c][r]=2;
+            for (int i = 0; i < M.length; i++) {
+                if(M[r][i]==1)queue.offer(new int[]{r,i});
+                if(M[c][i]==1)queue.offer(new int[]{c,i});
             }
         }
     }
