@@ -2,7 +2,7 @@ package com.ccsi.leetcode5;
 
 import java.util.*;
 
-public class LC56ArrayPartitionI {
+public class LC561ArrayPartitionI {
     public static void main(String[] args) {
         int[] nums={1,4,2,3,6,5};
         System.out.println(arrayPairSum(nums));
