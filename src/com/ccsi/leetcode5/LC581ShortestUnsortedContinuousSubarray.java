@@ -5,7 +5,7 @@ import java.util.*;
 public class LC581ShortestUnsortedContinuousSubarray {
     public static void main(String[] args) {
         int[] nums={2,6,4,8,10,9,15};
-        System.out.println(findUnsortedSubarray1(nums));
+        System.out.println(findUnsortedSubarray2(nums));
     }
     public static int findUnsortedSubarray(int[] nums){
         if(nums==null||nums.length<2)return 0;
@@ -28,5 +28,30 @@ public class LC581ShortestUnsortedContinuousSubarray {
         }
         return end-beg+1; //需要重排的前后位置都找到之后，注意是闭合区间。如果是排好序的递增数列，那么
         //end和beg都没变，那就是0，为了方便，在初始化时就直接初始化好为beg为-1，end为-2。
+    }
+    //单调栈 monotonic stack
+    public static int findUnsortedSubarray2(int[] nums){
+        if(nums==null||nums.length<2)return 0;
+        int leftBoundary=0;
+        int rightBoundary=nums.length-1;
+        Stack<Integer> stack=new Stack<>();
+        for (int i = 0; i < nums.length; i++) {
+            if(stack.isEmpty()||nums[i]>=nums[stack.peek()]){
+                stack.push(i);
+            }else{
+                leftBoundary=Math.min(leftBoundary,stack.pop());
+                i--;
+            }
+        }
+        stack.clear();
+        for(int i=nums.length-1;i>=0;i--){
+            if(stack.isEmpty()||nums[i]<=nums[stack.peek()]){
+                stack.push(i);
+            }else{
+                rightBoundary=Math.max(rightBoundary,stack.pop());
+                i++;
+            }
+        }
+        return rightBoundary>leftBoundary?rightBoundary-leftBoundary+1:0;
     }
 }
