@@ -34,6 +34,7 @@ public class LC581ShortestUnsortedContinuousSubarray {
         if(nums==null||nums.length<2)return 0;
         int leftBoundary=0;
         int rightBoundary=nums.length-1;
+
         Stack<Integer> stack=new Stack<>();
         for (int i = 0; i < nums.length; i++) {
             if(stack.isEmpty()||nums[i]>=nums[stack.peek()]){
